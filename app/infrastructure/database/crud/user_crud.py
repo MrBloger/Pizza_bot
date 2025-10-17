@@ -113,37 +113,6 @@ async def clear_user_cart(session: AsyncSession, user_id: int) -> int:
     return result.rowcount
 
 
-async def get_cart_item(session: AsyncSession, user_id: int, item_id: int) -> CartItem | None:
-    """Получает конкретный товар из корзины пользователя"""
-    result = await session.execute(
-        select(CartItem)
-        .where(
-            CartItem.user_id == user_id,
-            CartItem.item_id == item_id
-        )
-        .options(joinedload(CartItem.item))
-    )
-    return result.scalar_one_or_none()
-
-
-async def create_order(session: AsyncSession, user_id: int, cart_items: list[CartItem]) -> Order:
-    total = sum(item.quantity * item.item.price for item in cart_items)
-    order = Order(user_id=user_id, status="pending", total=total)
-    session.add(order)
-    await session.flush()
-    
-    for item in cart_items:
-        order_item = OrderItem(
-            order_id=order.id,
-            item_id=item.item_id,
-            quantity=item.quantity,
-            price=item.item.price
-        )
-        session.add(order_item)
-    
-    return order
-
-
 async def get_user_orders(session: AsyncSession, user_id: int) -> list[Order]:
     """Получить все заказы пользователя"""
     result = await session.execute(
