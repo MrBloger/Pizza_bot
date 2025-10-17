@@ -1,8 +1,7 @@
 from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
-from app.infrastructure.database.models import User, CartItem, Order, OrderItem, SupportRequest, MenuItem
+from app.infrastructure.database.models import User, CartItem, MenuItem
 
 
 async def get_user_by_user_id(session: AsyncSession, user_id: int) -> User | None:
@@ -112,16 +111,5 @@ async def clear_user_cart(session: AsyncSession, user_id: int) -> int:
     )
     return result.rowcount
 
-
-async def get_user_orders(session: AsyncSession, user_id: int) -> list[Order]:
-    """Получить все заказы пользователя"""
-    result = await session.execute(
-        select(Order)
-        .where(Order.user_id == user_id)
-        .options(
-            joinedload(Order.order_items).joinedload(OrderItem.item)
-        )
-    )
-    return result.scalars().all()
 
 

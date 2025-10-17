@@ -10,16 +10,14 @@ from app.bot.keyboards import (
     start_kb, get_lang_settings_kb, home_kb, get_menu_item_kb, cart_kb, prepayment_kb
 )
 from app.bot.keyboards.callback_factory import (
-    CartAction, CartActionCall, LanguageActionCall, LanguageAction,
-    StartActionCall, SaveActionCall, SaveAction,
-    HomeActionCall, HomeAction
+    CartActionCall, LanguageActionCall, LanguageAction,
+    StartActionCall, SaveActionCall, HomeActionCall
 )
 from app.bot.keyboards.menu_button import get_main_menu_commands
 from app.bot.enums.roles import UserRole
 from app.infrastructure.database.crud.user_crud import (
     add_item_to_cart, get_cart_items, get_user_by_user_id, create_user, update_user_language,
-    update_user_alive_status, update_user_role, get_all_menu_items, clear_user_cart, get_cart_item,
-    create_order, get_user_orders
+    update_user_alive_status, update_user_role, get_all_menu_items, clear_user_cart,
 )
 
 from app.bot.i18n.translator import redis_client
@@ -337,33 +335,6 @@ async def update_cart_message(
         parse_mode="HTML",
         reply_markup=keyboard
     )
-
-
-# @user_router.callback_query(CartActionCall.filter(F.action == "confirm"))
-# async def confirm_order_btn(
-#     call: CallbackQuery,
-#     callback_data: CartActionCall,
-#     i18n: I18nContext,
-#     session: AsyncSession
-# ):
-#     user_id = call.from_user.id
-    
-#     cart_items = await get_cart_items(session, user_id)
-#     if not cart_items:
-#         await call.answer(i18n.get("cart_is_empty"), show_alert=True)
-#         return
-    
-    
-#     order = await create_order(session=session, user_id=user_id, cart_items=cart_items)
-    
-#     await clear_user_cart(session=session, user_id=user_id)
-    
-    
-#     await call.answer(i18n.get("order_confirmed_alert"), show_alert=True)
-#     await call.message.edit_text(
-#         i18n.get("order_confirmed_text", order_id=order.id),
-#         reply_markup=None
-#     )
 
 @user_router.callback_query(CartActionCall.filter(F.action == "confirm"))
 async def confirm_order_btn(
