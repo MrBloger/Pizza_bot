@@ -1,0 +1,8 @@
+venv/
+.env
+.mypy_cache/
+.vscode/
+venv/
+__pycache__/
+.redis_data/
+.DS_Store

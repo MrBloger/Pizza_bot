@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7.4-alpine
+    container_name: redis
+    env_file:
+      - .env
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "PING"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+
+volumes:
+  redis_data:
+
+networks:
+  app_networks:
+    name: app_network

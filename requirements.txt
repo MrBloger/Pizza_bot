@@ -1,0 +1,17 @@
+# aiogram==3.17.0
+# SQLAlchemy==2.0.37
+# pydantic==2.10.4
+# pydantic-settings==2.1.0
+# python-dotenv==1.1.0
+# redis==5.2.1
+# aiogram-i18n
+
+aiogram>=3.0.0
+aiogram-i18n
+fluent.runtime
+redis
+SQLAlchemy>=2.0
+asyncpg
+alembic
+psycopg2-binary
+python-dotenv
