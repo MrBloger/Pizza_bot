@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bot.keyboards import (
-    start_kb, get_lang_settings_kb, home_kb, get_menu_item_kb, cart_kb, prepayment_kb #get_item_quantity_kb
+    start_kb, get_lang_settings_kb, home_kb, get_menu_item_kb, cart_kb, prepayment_kb
 )
 from app.bot.keyboards.callback_factory import (
     CartAction, CartActionCall, LanguageActionCall, LanguageAction,
@@ -19,7 +19,7 @@ from app.bot.enums.roles import UserRole
 from app.infrastructure.database.crud.user_crud import (
     add_item_to_cart, get_cart_items, get_user_by_user_id, create_user, update_user_language,
     update_user_alive_status, update_user_role, get_all_menu_items, clear_user_cart, get_cart_item,
-    create_order, get_user_orders#change_cart_item_quantity, remove_item_from_cart
+    create_order, get_user_orders
 )
 
 from app.bot.i18n.translator import redis_client
